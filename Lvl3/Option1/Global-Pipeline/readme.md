@@ -1,7 +1,6 @@
 ## The Project
-The project is a very simple script that pulls current weather data from OpenWeatherMap
-for your location, it then analyses it and lists which items (umbrella, icecream, jumper...)
-you will need for the current weather.
+The project is a very simple script that pulls current weather data from  another git repository.
+It then analyses it and lists which items (umbrella, icecream, jumper...) you will need for the current weather.
 
 ## Intro
 Building NodeJS Application Globally Through Jenkins Job
