@@ -18,8 +18,8 @@ module "ecs-fargate-service" {
     ecs-cluster-arn = module.ecs-cluster.ecs-cluster-arn
     task-definition-arn = module.ecs-fargate-task-definition.ecs-task-definition-arn
     desired-count = 1 
-    security-groups-id = ["sg-0ab8d262c31139124"]
-    public-subnets = ["subnet-9d08f5bc"]
+    security-groups-id = ["sg-ad1c09f4"]
+    public-subnets = ["subnet-00edf5fade1e62ca6"]
     assign-public-ip = true
 }
 
