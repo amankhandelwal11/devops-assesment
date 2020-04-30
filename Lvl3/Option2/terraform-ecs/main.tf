@@ -1,7 +1,9 @@
 
 
 provider "aws" {
-
+  assume_role {
+    role_arn     = "arn:aws:iam::840955746374:role/ec2-access"
+  }
   region     = "us-east-1"
 }
 
