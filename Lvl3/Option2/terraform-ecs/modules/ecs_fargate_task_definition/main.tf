@@ -37,7 +37,7 @@ resource "aws_ecs_task_definition" "td" {
 [
   {
     "name": "nginx",
-    "image": "498715274513.dkr.ecr.us-east-1.amazonaws.com/nginx-test:latest",
+    "image": "840955746374.dkr.ecr.us-east-1.amazonaws.com/web:latest",
     "cpu": 256,
     "memory": 512,
     "essential": true,
