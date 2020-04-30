@@ -15,3 +15,7 @@ Go To the Following Job to build Nodejs Application
 NodeJS Project Repo
 
 - [NodeJS Global repo] (https://github.com/RahulVadisetty91/NodeJsProj)
+
+NodeJS Application Report
+
+- [NodeJs report] (http://100.24.19.122:8080/job/nodejs-pipeline/3/execution/node/3/ws/Lvl3/Option1/NodeJsProj/reports/)
