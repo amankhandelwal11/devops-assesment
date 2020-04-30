@@ -27,13 +27,14 @@ pipeline {
 
     stage('Checkout SCM') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/rv91/node-test-examples.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/Lvl3']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/rv91/devops-assesment.git']]])
       }
     }
 
     stage('Test') {
       steps {
         sh '''#!/bin/bash
+          cd /var/lib/jenkins/workspace/nodejs-pipeline/Lvl3/Option1/NodeJsProj
           npm install
           npm test
           npm run cover
