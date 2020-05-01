@@ -34,7 +34,7 @@ pipeline {
         stage('Git Checkout') {
             agent any 
             steps {
-	           git poll: true, credentialsId: 'GITCRED', url: 'https://github.com/rv91/devops-assesment.git'    
+	           git credentialsId: 'GITCRED', url: 'https://github.com/rv91/devops-assesment.git'    
 	           sh "ls -l"
             }
         }
