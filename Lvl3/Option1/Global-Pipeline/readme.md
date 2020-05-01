@@ -18,4 +18,4 @@ NodeJS Project Repo
 
 NodeJS Application Report
 
-- [NodeJs report] (http://100.24.19.122:8080/job/nodejs-pipeline/3/execution/node/3/ws/Lvl3/Option1/NodeJsProj/reports/)
+- [NodeJs report] (http://100.24.19.122:8080/job/nodejs-pipeline/HTML_20Report/)
