@@ -5,7 +5,7 @@ pipeline {
         CONTAINER_PORT = '8000'
         HOST_PORT = '8000'
         GIT_CRED_ID = 'GITCRED'
-        REPO_URL = 'https://github.com/rv91/devops-assesment.git'
+        REPO_URL = 'https://github.com/rahulvadisetty91/devops-assesment.git'
         BUILD_NAME = "nginx" + ":$BUILD_NUMBER"
         ECR_REPO = "840955746374.dkr.ecr.us-east-1.amazonaws.com/web"
         ECR_REPO2 = "840955746374.dkr.ecr.us-east-1.amazonaws.com/web"+":$BUILD_NUMBER"
@@ -25,19 +25,19 @@ pipeline {
     
     stages {
         
-        stage('CleanWorkspace') {
-            steps {
-                cleanWs()
-            }
-        }
+        //stage('CleanWorkspace') {
+        //    steps {
+        //        cleanWs()
+        //    }
+        //}
         
-        stage('Git Checkout') {
-            agent any 
-            steps {
-	           git credentialsId: 'GITCRED', url: 'https://github.com/rv91/devops-assesment.git'    
-	           sh "ls -l"
-            }
-        }
+        //stage('Git Checkout') {
+        //    agent any 
+        //    steps {
+	//           git credentialsId: 'GITCRED', url: 'https://github.com/rahulvadisetty91/devops-assesment.git'    
+	//           sh "ls -l"
+        //    }
+        //}
         
         stage('Image Build') {
             agent any
