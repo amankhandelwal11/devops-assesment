@@ -3,7 +3,7 @@
 def setBuildStatus(String message, String state) {
   step([
       $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/rv91/devops-assesment"],
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/RahulVadisetty91/NodeJsProj"],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
@@ -27,14 +27,14 @@ pipeline {
 
     stage('Checkout SCM') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/Lvl3']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/rv91/devops-assesment.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/RahulVadisetty91/NodeJsProj.git']]])
       }
     }
 
     stage('Test') {
       steps {
         sh '''#!/bin/bash
-          cd /var/lib/jenkins/workspace/nodejs-pipeline/Lvl3/Option1/NodeJsProj
+          cd /var/lib/jenkins/workspace/nodejs-pipeline/
           npm install
           npm test
           npm run cover
