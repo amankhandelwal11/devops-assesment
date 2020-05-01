@@ -19,9 +19,9 @@ pipeline {
          AWS_DEFAULT_REGION = "us-east-1"
     }
     //git credentialsId: 'GITCRED', url: 'https://github.com/rv91/devops-assesment.git'
-//     triggers {
-// 	    pollSCM('* * * * *')
-// 	}
+       triggers {
+ 	    pollSCM('* * * * *')
+ 	}
     
     stages {
         
@@ -34,7 +34,7 @@ pipeline {
         stage('Git Checkout') {
             agent any 
             steps {
-	           git credentialsId: 'GITCRED', url: 'https://github.com/rv91/devops-assesment.git'    
+	           git poll: true, credentialsId: 'GITCRED', url: 'https://github.com/rv91/devops-assesment.git'    
 	           sh "ls -l"
             }
         }
