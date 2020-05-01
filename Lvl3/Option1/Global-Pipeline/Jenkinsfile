@@ -1,0 +1,49 @@
+#!groovy
+
+def setBuildStatus(String message, String state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/RahulVadisetty91/NodeJsProj"],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
+pipeline {
+  agent any
+
+  stages {
+
+    stage('Checkout SCM') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/RahulVadisetty91/NodeJsProj.git']]])
+      }
+    }
+
+    stage('Test') {
+      steps {
+        sh '''#!/bin/bash
+          cd /var/lib/jenkins/workspace/nodejs-pipeline/
+          npm install
+          npm test
+          npm run cover
+        '''
+      }
+    }
+  }
+  post {
+    always {
+      archiveArtifacts artifacts: 'reports/', followSymlinks: false
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './reports/awesome-reports/', reportFiles: 'mochawesome.html', reportName: 'HTML Report', reportTitles: ''])
+    }
+    success {
+        setBuildStatus("Build succeeded", "SUCCESS");
+    }
+    failure {
+        setBuildStatus("Build failed", "FAILURE");
+    }
+  }
+}
+
+
