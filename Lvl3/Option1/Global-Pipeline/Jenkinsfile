@@ -43,6 +43,10 @@ pipeline {
     }
   }
   post {
+    always {
+      archiveArtifacts artifacts: './reports/', followSymlinks: false
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './reports/awesome-reports/', reportFiles: 'mochawesome.html', reportName: 'HTML Report', reportTitles: ''])
+    }
     success {
         setBuildStatus("Build succeeded", "SUCCESS");
     }
