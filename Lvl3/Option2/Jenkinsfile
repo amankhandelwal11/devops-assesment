@@ -1,0 +1,96 @@
+pipeline {
+    agent any 
+    environment {
+        APP_NAME = 'springboot'
+        CONTAINER_PORT = '8000'
+        HOST_PORT = '8000'
+        GIT_CRED_ID = 'GITCRED'
+        REPO_URL = 'https://github.com/rv91/devops-assesment.git'
+        BUILD_NAME = "nginx" + ":$BUILD_NUMBER"
+        ECR_REPO = "840955746374.dkr.ecr.us-east-1.amazonaws.com/web"
+        ECR_REPO2 = "840955746374.dkr.ecr.us-east-1.amazonaws.com/web"+":$BUILD_NUMBER"
+        //REGION = "us-east-1"
+        //AWS_ACCESS_KEY_ID = credentials('awskey')
+        //TF_WORKSPACE = 'dev' //Sets the Terraform Workspace
+        TF_IN_AUTOMATION = 'true'
+        //AWS_ACCESS_KEY_ID = credentials('awsid')
+        AWS_ACCESS_KEY_ID = 'AKIA4HTG6LBDJHJQC3UE'
+        AWS_SECRET_ACCESS_KEY = credentials('awskey')
+         AWS_DEFAULT_REGION = "us-east-1"
+    }
+    //git credentialsId: 'GITCRED', url: 'https://github.com/rv91/devops-assesment.git'
+//     triggers {
+// 	    pollSCM('* * * * *')
+// 	}
+    
+    stages {
+        
+        stage('CleanWorkspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        
+        stage('Git Checkout') {
+            agent any 
+            steps {
+	           git credentialsId: 'GITCRED', url: 'https://github.com/rv91/devops-assesment.git'    
+	           sh "ls -l"
+            }
+        }
+        
+        stage('Image Build') {
+            agent any
+            steps {
+                //sh "docker system prune -af"
+                
+                dir('./Lvl3/Option2/Docker-build/') {
+                    // some block
+                    sh "ls -la"
+                     
+                     sh "sudo docker build -t ${BUILD_NAME} ."
+                }
+                
+               
+               
+            }
+        }
+        
+        stage('Push Image') {
+            agent any
+            steps {
+              
+                withCredentials([string(credentialsId: 'ECR', variable: 'ECRPASS')]) {
+                    
+                   
+                    sh 'echo ${ECRPASS} | sudo docker login --username AWS --password-stdin ${ECR_REPO}'
+                }
+                
+                sh "sudo docker tag ${BUILD_NAME} ${ECR_REPO}:${BUILD_NUMBER}"
+                sh "sudo docker push ${ECR_REPO}:${BUILD_NUMBER}"
+                
+            }
+        }
+        
+        stage('Deploy App') {
+            agent any
+            steps {
+               
+               dir('/var/lib/jenkins/workspace/terraform-ecs/') {
+                        
+                        sh "sudo bash script.sh ${BUILD_NUMBER}"
+                    
+                } 
+                
+                dir('/var/lib/jenkins/workspace/terraform-ecs/') {
+                        
+                        
+                        sh "ls -la"
+                        sh "sudo /usr/local/bin/terraform init"
+                        sh "sudo /usr/local/bin/terraform plan -out=tfplan -input=false"
+                        sh "sudo /usr/local/bin/terraform apply -input=false tfplan"
+                }
+            }
+        }
+    }
+}

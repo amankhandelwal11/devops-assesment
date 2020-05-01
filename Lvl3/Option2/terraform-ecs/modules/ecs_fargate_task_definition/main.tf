@@ -33,27 +33,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach
 resource "aws_ecs_task_definition" "td" {
   family = "td"
 
-  container_definitions = <<DEFINITION
-[
-  {
-    "name": "nginx",
-    "image": "840955746374.dkr.ecr.us-east-1.amazonaws.com/web:latest",
-    "cpu": 256,
-    "memory": 512,
-    "essential": true,
-    "portMappings": [
-      {
-        "containerPort": 80,
-        "hostPort": 80
-      },
-      {
-        "containerPort": 50000,
-        "hostPort": 50000
-      }
-    ]
-  }
-]
-DEFINITION
+  container_definitions = file("service.json")
 
 task_role_arn         = aws_iam_role.ecs_task_execution_role.arn
 execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn
